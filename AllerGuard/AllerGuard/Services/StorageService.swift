@@ -219,15 +219,9 @@ final class StorageService: StorageServiceProtocol {
             throw StorageError.directoryCreationFailed
         }
         
-        // Create a new scan with a new ID if needed
-        let scanToSave = scan.id == UUID.init() ? ScanResult(
-            id: UUID(),
-            date: scan.date,
-            imagePath: scan.imagePath,
-            recognizedText: scan.recognizedText,
-            detectedAllergens: scan.detectedAllergens,
-            notes: scan.notes
-        ) : scan
+        // The ScanResult initializer already provides a unique ID
+        // so we simply use the provided scan as-is.
+        let scanToSave = scan
         
         // Save the scan data
         let scanURL = scansDirectory.appendingPathComponent("\(scanToSave.id.uuidString).json")
